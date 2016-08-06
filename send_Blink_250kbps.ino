@@ -19,32 +19,33 @@ START_INIT:
     if(CAN_OK == CAN.begin(CAN_250KBPS,MCP_8MHz))                   // init can bus : baudrate = 500k
     {
         Serial.println("CAN BUS Shield init ok!");
-          digitalWrite(LED,true);
+          digitalWrite(LED,HIGH);
            delay(200);
-           digitalWrite(LED,false);
+           digitalWrite(LED,LOW);
            delay(200);
-           digitalWrite(LED,true);
+           digitalWrite(LED,HIGH);
            delay(200);
-           digitalWrite(LED,false);
+           digitalWrite(LED,LOW);
     }
     else
     {
         Serial.println("CAN BUS Shield init fail");
         Serial.println("Init CAN BUS Shield again");
-        digitalWrite(LED,true);
+        digitalWrite(LED,HIGH);
            delay(100);
            digitalWrite(LED,false);
            delay(200);
-           digitalWrite(LED,true);
+           digitalWrite(LED,HIGH);
            delay(100);
            digitalWrite(LED,false);
            delay(200);
-           digitalWrite(LED,true);
+           digitalWrite(LED,HIGH);
            delay(800);
             digitalWrite(LED,false);
            delay(200);
         goto START_INIT;
     }
+    
 }
 
 unsigned char stmpON[8] = {0,0,1,0,0,0,0,0};
@@ -53,12 +54,13 @@ unsigned char stmpOFF[8] = {0,0,0,0,0,0,0,0};
 void loop()
 {   Serial.println("In loop");
     // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
-//    CAN.sendMsgBuf(0x80,0, 8, stmpON);
+    CAN.sendMsgBuf(0x80,0, 8, stmpON);
       digitalWrite(LED,HIGH);
     delay(4000);                       // send data per 100ms
- //    CAN.sendMsgBuf(0x80,0, 8, stmpOFF);
-    delay(4000);                       // send data per 100ms
+     CAN.sendMsgBuf(0x80,0, 8, stmpOFF);
+                          // send data per 100ms
      digitalWrite(LED,LOW);
+      delay(4000);
 }
 
 /*********************************************************************************************************
